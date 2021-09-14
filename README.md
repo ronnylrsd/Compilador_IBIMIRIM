@@ -48,3 +48,6 @@ Você pode acessar a javadoc online do projeto através...
 - Matrícula: 202010949-3
 - GitHub: [davimateus1](https://github.com/davimateus1)
 
+#### Nome: Marcos Fellipe Andrade da Silva
+- Matrícula: 202010973-3
+- GitHub: [marcosfandrade](https://github.com/marcosfandrade)
