@@ -9,6 +9,10 @@
   <a href="#-colaboradores">Colaboradores</a>
 </p>
 
+<p align="center">
+  <img alt="IBIMIRIM" src="https://user-images.githubusercontent.com/45500812/133270642-bcc4c7e5-2812-4a4e-b544-c5b635db8eae.png" width="100%">
+</p>
+
 <br>
 
 ## ✨ Tecnologias
