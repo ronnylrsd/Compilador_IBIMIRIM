@@ -40,6 +40,11 @@ Você pode acessar a javadoc online do projeto através...
 - Matrícula: 202013531-2
 - GitHub: [DjalmaHenry](https://github.com/DjalmaHenry)
 
-#### Nome: Lucas dos Santos Amorim Rego
+- #### Nome: Lucas dos Santos Amorim Rego
 - Matrícula: 202010968-0
 - GitHub: [Lucass235](https://github.com/lucass235)
+
+- #### Nome: Davi Mateus Gomes de Almeida
+- Matrícula: 202010949-3
+- GitHub: [davimateus1](https://github.com/davimateus1)
+
