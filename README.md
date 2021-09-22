@@ -51,3 +51,7 @@ Você pode acessar a javadoc online do projeto através...
 #### Nome: Marcos Fellipe Andrade da Silva
 - Matrícula: 202010973-3
 - GitHub: [marcosfandrade](https://github.com/marcosfandrade)
+
+#### Nome: João Pedro B. Rodrigues
+- Matrícula: 202011195-6
+- GitHub: [joaoPedroJPBR](https://github.com/joaoPedroJPBR)
