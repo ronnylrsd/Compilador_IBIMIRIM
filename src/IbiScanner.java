@@ -12,9 +12,9 @@ public class IbiScanner {
         try {
             String txtConteudo;
             txtConteudo = new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
-           System.out.println("--- DEBUG ---");
-           System.out.println(txtConteudo);
-           System.out.println("-------------");
+            System.out.println("--- DEBUG ---");
+            System.out.println(txtConteudo);
+            System.out.println("-------------");
             content = txtConteudo.toCharArray();
             pos = 0;
         } catch (Exception ex) {
@@ -32,7 +32,7 @@ public class IbiScanner {
         estado = 0;
         while (true) {
             currentChar = nextChar();
-            
+
             switch (estado) {
                 case 0:
                     if (isChar(currentChar)) {
@@ -45,6 +45,8 @@ public class IbiScanner {
                         estado = 0;
                     } else if (isOperator(currentChar)) {
                         estado = 5;
+                    }else if(isSpecial(currentChar)) {
+                        estado = 6;
                     } else {
                         throw new ibiLexicalException("Simbolo mal construido");
                     }
@@ -55,8 +57,8 @@ public class IbiScanner {
                         term += currentChar;
                     } else if (isSpace(currentChar) || isOperator(currentChar)) {
                         estado = 2;
-                    }else{
-                        throw new ibiLexicalException ("Identificador mal formado");
+                    } else {
+                        throw new ibiLexicalException("Identificador mal formado");
                     }
                     break;
                 case 2:
@@ -66,27 +68,35 @@ public class IbiScanner {
                     token.setText(term);
                     return token;
                 case 3:
-                    if(isDigit(currentChar)){
+                    if (isDigit(currentChar)) {
                         estado = 3;
                         term += currentChar;
-                    }else if (!isChar(currentChar)){
+                    } else if (!isChar(currentChar)) {
                         estado = 4;
-                    }else{
+                    } else {
                         throw new ibiLexicalException("Número mal construido");
                     }
                     break;
                 case 4:
-                     token = new Token();
-                     token.setType(Token.TK_NUMBER);
-                     token.setText(term);
-                     back();
-                     return token;    
-                case 5: 
+                    token = new Token();
+                    token.setType(Token.TK_NUMBER);
+                    token.setText(term);
+                    back();
+                    return token;
+                case 5:
                     term += currentChar;
-                    token = new Token();    
+                    token = new Token();
                     token.setType(Token.TK_OPERATOR);
                     token.setText(term);
-                    return token;                       
+                    back();
+                    return token;
+                case 6:
+                    term += currentChar;
+                    token = new Token();
+                    token.setType(Token.TK_SPECIAL);
+                    token.setText(term);
+                    back();
+                    return token;
             }
         }
     }
@@ -105,6 +115,10 @@ public class IbiScanner {
 
     private boolean isSpace(char c) {
         return c == ' ' || c == '\t' || c == '\n' || c == '\r';
+    }
+
+    private boolean isSpecial(char c) {
+        return c == ')' || c == '(' || c == '{' || c == '}' || c == ',' || c == ';';
     }
 
     private char nextChar() {

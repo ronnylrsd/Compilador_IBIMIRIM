@@ -10,9 +10,9 @@ public class Main {
                 }
             } while (token != null);
         } catch (ibiLexicalException ex) {
-            System.out.println("Lexical ERROR " + ex.getMessage());
+            System.out.println("Erro léxico: " + ex.getMessage());
         } catch (Exception ex) {
-            System.out.println("Gereric Error!");
+            System.out.println("Erro Genérico!");
         }
     }
 }
