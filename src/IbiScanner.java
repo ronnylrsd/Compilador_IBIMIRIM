@@ -24,13 +24,17 @@ public class IbiScanner {
 
     public Token nextToken() {
         char currentChar;
-        Token token;
+        Token token = null;
         String term = "";
         if (isEOF()) {
             return null;
         }
+
         estado = 0;
-        while (true) {
+        while (pos < content.length) {
+            if (isEOF()) {
+                return null;
+            }
             currentChar = nextChar();
 
             switch (estado) {
@@ -45,7 +49,7 @@ public class IbiScanner {
                         estado = 0;
                     } else if (isOperator(currentChar)) {
                         estado = 5;
-                    }else if(isSpecial(currentChar)) {
+                    } else if (isSpecial(currentChar)) {
                         estado = 6;
                     } else {
                         throw new ibiLexicalException("Simbolo mal construido");
@@ -63,7 +67,11 @@ public class IbiScanner {
                     break;
                 case 2:
                     token = new Token();
-                    token.setType(Token.TK_IDENTIFIER);
+                    if (isReserved(term)) {
+                        token.setType(Token.TK_RESERVED);
+                    } else {
+                        token.setType(Token.TK_IDENTIFIER);
+                    }
                     token.setText(term);
                     back();
                     return token;
@@ -99,6 +107,7 @@ public class IbiScanner {
                     return token;
             }
         }
+        return token;
     }
 
     private boolean isDigit(char c) {
@@ -117,6 +126,14 @@ public class IbiScanner {
         return c == ' ' || c == '\t' || c == '\n' || c == '\r';
     }
 
+    private boolean isReserved(String c) {
+        if(c.compareTo("main") == 0 || c.compareTo("if")  == 0 || c.compareTo("else") == 0 || c.compareTo("while") == 0 || c.compareTo("do") == 0 || c.compareTo("for") == 0 || c.compareTo("int") == 0 || c.compareTo("float") == 0 || c.compareTo("char") == 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private boolean isSpecial(char c) {
         return c == ')' || c == '(' || c == '{' || c == '}' || c == ',' || c == ';';
     }
@@ -125,12 +142,12 @@ public class IbiScanner {
         return content[pos++];
     }
 
-    private boolean isEOF() {
-        return pos == content.length;
-    }
-
     private void back() {
         pos--;
+    }
+
+    private boolean isEOF() {
+        return pos == content.length;
     }
 
 }
