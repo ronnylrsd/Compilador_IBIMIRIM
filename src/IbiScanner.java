@@ -62,10 +62,10 @@ public class IbiScanner {
                     }
                     break;
                 case 2:
-                    back();
                     token = new Token();
                     token.setType(Token.TK_IDENTIFIER);
                     token.setText(term);
+                    back();
                     return token;
                 case 3:
                     if (isDigit(currentChar)) {
