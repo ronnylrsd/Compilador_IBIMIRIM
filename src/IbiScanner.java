@@ -48,9 +48,29 @@ public class IbiScanner {
                     } else if (isSpace(currentChar)) {
                         estado = 0;
                     } else if (isOperator(currentChar)) {
-                        estado = 5;
+                        term += currentChar;
+                        token = new Token();
+                        token.setType(Token.TK_OPERATOR);
+                        token.setText(term);
+                        return token;
                     } else if (isSpecial(currentChar)) {
-                        estado = 6;
+                        term += currentChar;
+                        token = new Token();
+                        token.setType(Token.TK_SPECIAL);
+                        token.setText(term);
+                        return token;
+                    } else if (isPrivate(currentChar)) {
+                        term += currentChar;
+                        token = new Token();
+                        token.setType(Token.TK_PRIVATE);
+                        token.setText(term);
+                        return token;
+                    } else if (isConditional(currentChar)) {
+                        term += currentChar;
+                        token = new Token();
+                        token.setType(Token.TK_CONDITIONAL);
+                        token.setText(term);
+                        return token;
                     } else {
                         throw new ibiLexicalException("Simbolo mal construido");
                     }
@@ -91,20 +111,7 @@ public class IbiScanner {
                     token.setText(term);
                     back();
                     return token;
-                case 5:
-                    term += currentChar;
-                    token = new Token();
-                    token.setType(Token.TK_OPERATOR);
-                    token.setText(term);
-                    back();
-                    return token;
-                case 6:
-                    term += currentChar;
-                    token = new Token();
-                    token.setType(Token.TK_SPECIAL);
-                    token.setText(term);
-                    back();
-                    return token;
+                    
             }
         }
         return token;
@@ -136,6 +143,14 @@ public class IbiScanner {
 
     private boolean isSpecial(char c) {
         return c == ')' || c == '(' || c == '{' || c == '}' || c == ',' || c == ';';
+    }
+
+    private boolean isPrivate(char c) {
+        return c == '_';
+    }
+
+    private boolean isConditional(char c) {
+        return c == '?' || c == ':';
     }
 
     private char nextChar() {
