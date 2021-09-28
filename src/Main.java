@@ -9,10 +9,11 @@ public class Main {
                     System.out.println(token);
                 }
             } while (token != null);
+            System.out.println("Compilação bem sucedida!");
         } catch (ibiLexicalException ex) {
-            System.out.println("Erro léxico: " + ex.getMessage());
+            System.err.println("Erro Léxico: " + ex.getMessage());
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            System.err.println("Erro Genérico: " + ex.getMessage());
         }
     }
 }
