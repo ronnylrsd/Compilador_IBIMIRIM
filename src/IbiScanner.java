@@ -61,10 +61,7 @@ public class IbiScanner {
                         return token;
                     } else if (isPrivate(currentChar)) {
                         term += currentChar;
-                        token = new Token();
-                        token.setType(Token.TK_PRIVATE);
-                        token.setText(term);
-                        return token;
+                        estado = 5;
                     } else if (isConditional(currentChar)) {
                         term += currentChar;
                         token = new Token();
@@ -111,7 +108,30 @@ public class IbiScanner {
                     token.setText(term);
                     back();
                     return token;
-                    
+                case 5:
+                    if (isChar(currentChar)) {
+                        term += currentChar;
+                        estado = 6;
+                    } else {
+                        throw new ibiLexicalException("Identificador privado mal formado");
+                    }
+                    break;
+                case 6:
+                    if (isChar(currentChar) || isDigit(currentChar)) {
+                        estado = 6;
+                        term += currentChar;
+                    } else if (isSpace(currentChar) || isOperator(currentChar)) {
+                        estado = 7;
+                    } else {
+                        throw new ibiLexicalException("Identificador privado mal formado");
+                    }
+                    break;
+                case 7:
+                    token = new Token();
+                    token.setType(Token.TK_PRIVATE);
+                    token.setText(term);
+                    back();
+                    return token;
             }
         }
         return token;
