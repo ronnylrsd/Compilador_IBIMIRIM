@@ -160,7 +160,7 @@ public class IbiScanner {
     }
 
     private boolean isReserved(String c) {
-        if(c.compareTo("main") == 0 || c.compareTo("if")  == 0 || c.compareTo("else") == 0 || c.compareTo("while") == 0 || c.compareTo("do") == 0 || c.compareTo("for") == 0 || c.compareTo("int") == 0 || c.compareTo("float") == 0 || c.compareTo("char") == 0){
+        if(c.compareTo("main") == 0 || c.compareTo("if")  == 0 || c.compareTo("else") == 0 || c.compareTo("while") == 0 || c.compareTo("do") == 0 || c.compareTo("for") == 0 || c.compareTo("int") == 0 || c.compareTo("float") == 0 || c.compareTo("char") == 0 || c.compareTo("ibimirim") == 0 || c.compareTo("charrete") == 0){
             return true;
         } else {
             return false;
