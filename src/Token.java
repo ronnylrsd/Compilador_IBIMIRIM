@@ -7,6 +7,7 @@ public class Token {
     public static final int TK_SPECIAL = 4;
     public static final int TK_PRIVATE = 5;
     public static final int TK_CONDITIONAL = 6;
+    public static final int TK_FINAL = 99;
     
     private int type;
     private String text;
@@ -53,6 +54,8 @@ public class Token {
                 return this.text + " - PRIVADO";
             case 6:
                 return this.text + " - CONDICIONAL";
+            case 99:
+                return this.text + " - FINAL DO ARQUIVO";
             default:
                 return "";
         }

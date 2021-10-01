@@ -68,6 +68,12 @@ public class IbiScanner {
                         token.setType(Token.TK_CONDITIONAL);
                         token.setText(term);
                         return token;
+                    } else if (isFinal(currentChar)) {
+                        term += currentChar;
+                        token = new Token();
+                        token.setType(Token.TK_FINAL);
+                        token.setText(term);
+                        return token;
                     } else {
                         throw new ibiLexicalException("Simbolo mal construido");
                     }
@@ -171,6 +177,10 @@ public class IbiScanner {
 
     private boolean isConditional(char c) {
         return c == '?' || c == ':';
+    }
+
+    private boolean isFinal(char c) {
+        return c == '$';
     }
 
     private char nextChar() {
