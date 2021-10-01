@@ -166,7 +166,7 @@ public class IbiScanner {
     }
 
     private boolean isPrivate(char c) {
-        return c == '_';
+        return c == '#';
     }
 
     private boolean isConditional(char c) {
