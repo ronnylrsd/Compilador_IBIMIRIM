@@ -1,11 +1,15 @@
 public class Token {
 
-    public static final int TK_IDENTIFIER = 0;
-    public static final int TK_RESERVED = 3;
-    public static final int TK_SPECIAL = 4;
-    public static final int TK_PRIVATE = 5;
-    public static final int TK_CONDITIONAL = 6;
-    public static final int TK_FINAL = 99;
+    public static final int TK_IDENTIFIER = 0; //identificador
+    public static final int TK_RESERVED = 1; // palavras reservadas
+    public static final int TK_SPECIAL = 2; // caracteres especiais
+    public static final int TK_PRIVATE = 3; // identificador privado
+    public static final int TK_CONDITIONAL = 4; //condicional IF ELSE
+    public static final int TK_ARITMETICO = 5; // operadores aritmeticos
+    public static final int TK_RELACIONAL = 6; // operadores relacionais
+    public static final int TK_LONG = 7; // tipo long
+    public static final int TK_POW = 8; // potencia
+    public static final int TK_FINAL = 99; //marcador final
     
     private int type;
     private String text;
@@ -41,19 +45,23 @@ public class Token {
             case 0:
                 return this.text + " - IDENTIFICADOR";
             case 1:
-                return this.text + " - NÚMERO INTEIRO";
+                return this.text + " - PALAVRA RESERVADA";
             case 2:
-                return this.text + " - OPERADOR";
+                return this.text + " - CARACTERE ESPECIAL";
             case 3:
-                return this.text + " - RESERVADO";
+                return this.text + " - IDENTIFICADOR PRIVADO";
             case 4:
-                return this.text + " - ESPECIAL";
-            case 5:
-                return this.text + " - PRIVADO";
-            case 6:
                 return this.text + " - CONDICIONAL";
+            case 5:
+                return this.text + " - OPERADOR ARITMETICO";
+            case 6:
+                return this.text + " - OPERADOR RELACIONAL";
+            case 7:
+                return this.text + " - LONG";
+            case 8:
+                return this.text + " - POTÊNCIA";
             case 99:
-                return this.text + " - FINAL DO ARQUIVO";
+                return this.text + " - FINAL DE ARQUIVO";
             default:
                 return "";
         }

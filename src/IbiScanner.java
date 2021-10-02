@@ -59,7 +59,39 @@ public class IbiScanner {
                         token.setType(Token.TK_CONDITIONAL);
                         token.setText(term);
                         return token;
-                    } else if (isFinal(currentChar)) {
+                // ==================================================
+                    } else if (isOperatorAritmetico(currentChar)) {
+                        if (currentChar == '=') {
+                            term += currentChar;
+                            estado = 3;
+                            break;
+                        }
+                        term += currentChar;
+                        token = new Token();
+                        token.setType(Token.TK_ARITMETICO);
+                        token.setText(term);
+                        return token;
+                    } else if (isLong(currentChar)) {
+                        term += currentChar;
+                        token = new Token();
+                        token.setType(Token.TK_LONG);
+                        token.setText(term);
+                        return token;
+                    } else if (isPow(currentChar)) {
+                        term += currentChar;
+                        token = new Token();
+                        token.setType(Token.TK_POW);
+                        token.setText(term);
+                        return token;
+                    } else if (isOperadorRelacional(currentChar)) {
+                        term += currentChar;
+                        estado = 4;
+                    } else if (currentChar == '!') {
+                        term += currentChar;
+                        estado = 8;
+                    }
+                    
+                    else if (isFinal(currentChar)) {
                         term += currentChar;
                         token = new Token();
                         token.setType(Token.TK_FINAL);
@@ -73,7 +105,7 @@ public class IbiScanner {
                     if (isChar(currentChar) || isDigit(currentChar)) {
                         estado = 1;
                         term += currentChar;
-                    } else if (isSpace(currentChar)) {
+                    } else if (isSpace(currentChar) || isOperatorAritmetico(currentChar)) {
                         estado = 2;
                     } else {
                         throw new ibiLexicalException("Identificador mal formado");
@@ -89,6 +121,36 @@ public class IbiScanner {
                     token.setText(term);
                     back();
                     return token;
+                case 3:
+                    if (currentChar == '=') {
+                        term += currentChar;
+                        token = new Token();
+                        token.setType(Token.TK_RELACIONAL);
+                        token.setText(term);
+
+                        return token;
+                    } else {
+                        token = new Token();
+                        token.setType(Token.TK_ARITMETICO);
+                        token.setText(term);
+                        back();
+                        return token;
+                    }
+                case 4:
+                    if (currentChar == '=') {
+                        term += currentChar;
+                        token = new Token();
+                        token.setType(Token.TK_RELACIONAL);
+                        token.setText(term);
+                        back();
+                        return token;
+                    } else {
+                        token = new Token();
+                        token.setType(Token.TK_RELACIONAL);
+                        token.setText(term);
+
+                        return token;
+                    }
                 case 5:
                     if (isChar(currentChar)) {
                         term += currentChar;
@@ -101,7 +163,7 @@ public class IbiScanner {
                     if (isChar(currentChar) || isDigit(currentChar)) {
                         estado = 6;
                         term += currentChar;
-                    } else if (isSpace(currentChar)) {
+                    } else if (isSpace(currentChar) || isOperatorAritmetico(currentChar)) {
                         estado = 7;
                     } else {
                         throw new ibiLexicalException("Identificador privado mal formado");
@@ -113,6 +175,17 @@ public class IbiScanner {
                     token.setText(term);
                     back();
                     return token;
+                case 8:
+                    if (currentChar == '=') {
+                        term += currentChar;
+                        token = new Token();
+                        token.setType(Token.TK_RELACIONAL);
+                        token.setText(term);
+                        back();
+                        return token;
+                    } else {
+                        throw new ibiLexicalException("Operador mal construido");
+                    }
             }
         }
         return token;
@@ -148,6 +221,23 @@ public class IbiScanner {
 
     private boolean isConditional(char c) {
         return c == '?' || c == ':';
+    }
+
+    private boolean isOperatorAritmetico(char c) {
+        return c == '+' || c == '-' || c == '=' || c == '*' || c == '/';
+    }
+
+    private boolean isOperadorRelacional(char c) {
+        return c == '>' || c == '<';
+    }
+
+    private boolean isLong(char c) {
+        return c == '@';
+    }
+
+    private boolean isPow(char c) {
+        return c == '^';
+
     }
 
     private boolean isFinal(char c) {
