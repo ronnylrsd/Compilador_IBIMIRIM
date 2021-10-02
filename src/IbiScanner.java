@@ -59,7 +59,6 @@ public class IbiScanner {
                         token.setType(Token.TK_CONDITIONAL);
                         token.setText(term);
                         return token;
-                // ==================================================
                     } else if (isOperatorAritmetico(currentChar)) {
                         if (currentChar == '=') {
                             term += currentChar;
@@ -89,14 +88,23 @@ public class IbiScanner {
                     } else if (currentChar == '!') {
                         term += currentChar;
                         estado = 8;
-                    }
-                    
-                    else if (isFinal(currentChar)) {
+                        // =======================================================
+                    } else if (isDigit(currentChar)) {
+                        term += currentChar;
+                        estado = 9;
+                    } else if (isBreak(currentChar)) {
+                        term += currentChar;
+                        token = new Token();
+                        token.setType(Token.TK_BREAK);
+                        token.setText(term);
+                        return token;
+                    } else if (isFinal(currentChar)) {
                         term += currentChar;
                         token = new Token();
                         token.setType(Token.TK_FINAL);
                         token.setText(term);
                         return token;
+
                     } else {
                         throw new ibiLexicalException("Simbolo mal construido");
                     }
@@ -186,6 +194,36 @@ public class IbiScanner {
                     } else {
                         throw new ibiLexicalException("Operador mal construido");
                     }
+                case 9:
+                    if (isDigit(currentChar)) {
+                        estado = 9;
+                        term += currentChar;
+                    } else if (!isChar(currentChar) && !isDot(currentChar)) {
+                        token = new Token();
+                        token.setType(Token.TK_INT);
+                        token.setText(term);
+                        back();
+                        return token;
+                    } else if (isDot(currentChar)) {
+                        estado = 10;
+                        term += currentChar;
+                    } else {
+                        throw new ibiLexicalException("Número Inteiro mal construido");
+                    }
+                    break;
+                case 10:
+                    if (isDigit(currentChar)) {
+                        estado = 10;
+                        term += currentChar;
+                    } else if (!isChar(currentChar)) {
+                        token = new Token();
+                        token.setType(Token.TK_FLOAT);
+                        token.setText(term);
+                        return token;
+                    } else {
+                        throw new ibiLexicalException("Número Float mal construido");
+                    }
+                    break;
             }
         }
         return token;
@@ -204,7 +242,10 @@ public class IbiScanner {
     }
 
     private boolean isReserved(String c) {
-        if(c.compareTo("main") == 0 || c.compareTo("if")  == 0 || c.compareTo("else") == 0 || c.compareTo("while") == 0 || c.compareTo("do") == 0 || c.compareTo("for") == 0 || c.compareTo("int") == 0 || c.compareTo("float") == 0 || c.compareTo("char") == 0 || c.compareTo("ibimirim") == 0 || c.compareTo("charrete") == 0){
+        if (c.compareTo("main") == 0 || c.compareTo("if") == 0 || c.compareTo("else") == 0 || c.compareTo("while") == 0
+                || c.compareTo("do") == 0 || c.compareTo("for") == 0 || c.compareTo("int") == 0
+                || c.compareTo("float") == 0 || c.compareTo("char") == 0 || c.compareTo("ibimirim") == 0
+                || c.compareTo("charrete") == 0) {
             return true;
         } else {
             return false;
@@ -242,6 +283,14 @@ public class IbiScanner {
 
     private boolean isFinal(char c) {
         return c == '$';
+    }
+
+    private boolean isDot(char c) {
+        return c == '.';
+    }
+
+    private boolean isBreak(char c) {
+        return c == '&';
     }
 
     private char nextChar() {
