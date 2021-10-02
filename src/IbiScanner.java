@@ -42,17 +42,8 @@ public class IbiScanner {
                     if (isChar(currentChar)) {
                         term += currentChar;
                         estado = 1;
-                    } else if (isDigit(currentChar)) {
-                        estado = 3;
-                        term += currentChar;
                     } else if (isSpace(currentChar)) {
                         estado = 0;
-                    } else if (isOperator(currentChar)) {
-                        term += currentChar;
-                        token = new Token();
-                        token.setType(Token.TK_OPERATOR);
-                        token.setText(term);
-                        return token;
                     } else if (isSpecial(currentChar)) {
                         term += currentChar;
                         token = new Token();
@@ -82,7 +73,7 @@ public class IbiScanner {
                     if (isChar(currentChar) || isDigit(currentChar)) {
                         estado = 1;
                         term += currentChar;
-                    } else if (isSpace(currentChar) || isOperator(currentChar)) {
+                    } else if (isSpace(currentChar)) {
                         estado = 2;
                     } else {
                         throw new ibiLexicalException("Identificador mal formado");
@@ -98,22 +89,6 @@ public class IbiScanner {
                     token.setText(term);
                     back();
                     return token;
-                case 3:
-                    if (isDigit(currentChar)) {
-                        estado = 3;
-                        term += currentChar;
-                    } else if (!isChar(currentChar)) {
-                        estado = 4;
-                    } else {
-                        throw new ibiLexicalException("Número mal construido");
-                    }
-                    break;
-                case 4:
-                    token = new Token();
-                    token.setType(Token.TK_NUMBER);
-                    token.setText(term);
-                    back();
-                    return token;
                 case 5:
                     if (isChar(currentChar)) {
                         term += currentChar;
@@ -126,7 +101,7 @@ public class IbiScanner {
                     if (isChar(currentChar) || isDigit(currentChar)) {
                         estado = 6;
                         term += currentChar;
-                    } else if (isSpace(currentChar) || isOperator(currentChar)) {
+                    } else if (isSpace(currentChar)) {
                         estado = 7;
                     } else {
                         throw new ibiLexicalException("Identificador privado mal formado");
@@ -149,10 +124,6 @@ public class IbiScanner {
 
     private boolean isChar(char c) {
         return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
-    }
-
-    private boolean isOperator(char c) {
-        return c == '>' || c == '<' || c == '=' || c == '!';
     }
 
     private boolean isSpace(char c) {

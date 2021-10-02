@@ -1,8 +1,6 @@
 public class Token {
 
     public static final int TK_IDENTIFIER = 0;
-    public static final int TK_NUMBER = 1;
-    public static final int TK_OPERATOR = 2;
     public static final int TK_RESERVED = 3;
     public static final int TK_SPECIAL = 4;
     public static final int TK_PRIVATE = 5;
