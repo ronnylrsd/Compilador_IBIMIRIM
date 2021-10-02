@@ -56,7 +56,7 @@ public class IbiScanner {
                     } else if (isConditional(currentChar)) {
                         term += currentChar;
                         token = new Token();
-                        token.setType(Token.TK_CONDITIONAL);
+                        token.setType(Token.TK_IF_ELSE);
                         token.setText(term);
                         return token;
                     } else if (isOperatorAritmetico(currentChar)) {
@@ -88,7 +88,6 @@ public class IbiScanner {
                     } else if (currentChar == '!') {
                         term += currentChar;
                         estado = 8;
-                        // =======================================================
                     } else if (isDigit(currentChar)) {
                         term += currentChar;
                         estado = 9;
@@ -98,6 +97,16 @@ public class IbiScanner {
                         token.setType(Token.TK_BREAK);
                         token.setText(term);
                         return token;
+                        // ===============================================
+                    } else if (isCommitLine(currentChar)) {
+                        term += currentChar;
+                        estado = 11;
+                    } else if (isCommitParagraph(currentChar)) {
+                        term += currentChar;
+                        estado = 12;
+                    } else if (isCaracter(String.valueOf(currentChar))) {
+                        term += currentChar;
+                        estado = 13;
                     } else if (isFinal(currentChar)) {
                         term += currentChar;
                         token = new Token();
@@ -224,6 +233,53 @@ public class IbiScanner {
                         throw new ibiLexicalException("Número Float mal construido");
                     }
                     break;
+                case 11:
+                    if (isCommitLine(currentChar) || isDigit(currentChar) || isChar(currentChar)
+                            || isOperator(currentChar) || isPrivate(currentChar) || isConditional(currentChar)
+                            || isUnderline(currentChar)) {
+                        estado = 11;
+                        term += currentChar;
+                    } else if (isSpace(currentChar)) {
+                        token = new Token();
+                        token.setType(Token.TK_COMMITLINE);
+                        token.setText(term);
+                        return token;
+                    } else {
+                        throw new ibiLexicalException("Comentário de linha mal construido");
+                    }
+                    break;
+                case 12:
+                    if (isSpace(currentChar) || isDigit(currentChar) || isChar(currentChar) || isOperator(currentChar)
+                            || isPrivate(currentChar) || isConditional(currentChar) || isUnderline(currentChar)) {
+                        estado = 7;
+                        term += currentChar;
+                    } else if (isCommitParagraph(currentChar)) {
+                        token = new Token();
+                        token.setType(Token.TK_COMMITPARAGRAPH);
+                        token.setText(term);
+                        return token;
+                    } else {
+                        throw new ibiLexicalException("Comentário de Parágrafo mal construido");
+                    }
+                    break;
+                case 13:
+                    if (isDigit(currentChar) || isCharMin(currentChar)) {
+                        term += currentChar;
+                        estado = 14;
+                    } else {
+                        throw new ibiLexicalException("Char mal construido");
+                    }
+                    break;
+                case 14:
+                    if (isCaracter(String.valueOf(currentChar))) {
+                        term += currentChar;
+                        token = new Token();
+                        token.setType(Token.TK_CHARACTER);
+                        token.setText(term);
+                        return token;
+                    } else {
+                        throw new ibiLexicalException("Char mal construido");
+                    }
             }
         }
         return token;
@@ -279,6 +335,30 @@ public class IbiScanner {
     private boolean isPow(char c) {
         return c == '^';
 
+    }
+
+    private boolean isCommitLine(char c) {
+        return c == '`';
+    }
+
+    private boolean isCommitParagraph(char c) {
+        return (c == '~');
+    }
+
+    private boolean isOperator(char c) {
+        return c == '>' || c == '<' || c == '=' || c == '!';
+    }
+
+    private boolean isCaracter(String c) {
+        return (c.compareTo("'") == 0);
+    }
+
+    private boolean isCharMin(char c) {
+        return (c >= 'a' && c <= 'z');
+    }
+
+    private boolean isUnderline(char c) {
+        return c == '_';
     }
 
     private boolean isFinal(char c) {
