@@ -290,7 +290,7 @@ public class IbiScanner {
     }
 
     private boolean isChar(char c) {
-        return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+        return (c >= 'a' && c <= 'z');
     }
 
     private boolean isSpace(char c) {
