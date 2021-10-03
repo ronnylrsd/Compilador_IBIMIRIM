@@ -251,9 +251,10 @@ public class IbiScanner {
                 case 12:
                     if (isSpace(currentChar) || isDigit(currentChar) || isChar(currentChar) || isOperator(currentChar)
                             || isPrivate(currentChar) || isConditional(currentChar) || isUnderline(currentChar)) {
-                        estado = 7;
+                        estado = 12;
                         term += currentChar;
                     } else if (isCommitParagraph(currentChar)) {
+                        term += currentChar;
                         token = new Token();
                         token.setType(Token.TK_COMMITPARAGRAPH);
                         token.setText(term);
