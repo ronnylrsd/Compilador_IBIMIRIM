@@ -164,7 +164,6 @@ public class IbiScanner {
                         token = new Token();
                         token.setType(Token.TK_RELATIONAL);
                         token.setText(term);
-
                         return token;
                     }
                 case 5:
@@ -263,7 +262,7 @@ public class IbiScanner {
                     }
                     break;
                 case 13:
-                    if (isDigit(currentChar) || isCharMin(currentChar)) {
+                    if (isDigit(currentChar) || isChar(currentChar)) {
                         term += currentChar;
                         estado = 14;
                     } else {
@@ -351,10 +350,6 @@ public class IbiScanner {
 
     private boolean isCaracter(String c) {
         return (c.compareTo("'") == 0);
-    }
-
-    private boolean isCharMin(char c) {
-        return (c >= 'a' && c <= 'z');
     }
 
     private boolean isUnderline(char c) {
