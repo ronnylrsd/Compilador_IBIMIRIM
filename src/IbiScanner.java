@@ -211,7 +211,7 @@ public class IbiScanner {
                         back();
                         return token;
                     } else if (isDot(currentChar)) {
-                        estado = 10;
+                        estado = 15;
                         term += currentChar;
                     } else {
                         throw new ibiLexicalException("Número Inteiro mal construido");
@@ -278,6 +278,14 @@ public class IbiScanner {
                     } else {
                         throw new ibiLexicalException("Char mal construido");
                     }
+                case 15:
+                    if(isDigit(currentChar)) {
+                        estado = 10;
+                        term += currentChar;
+                    } else {
+                        throw new ibiLexicalException("Número Float mal construido");
+                    }
+                    break;
             }
         }
         return token;
