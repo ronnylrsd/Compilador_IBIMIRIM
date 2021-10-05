@@ -158,7 +158,6 @@ public class IbiScanner {
                         token = new Token();
                         token.setType(Token.TK_RELATIONAL);
                         token.setText(term);
-                        back();
                         return token;
                     } else {
                         token = new Token();
