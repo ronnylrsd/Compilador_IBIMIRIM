@@ -1,3 +1,5 @@
+package AnalisadorLexico;
+
 public class Token {
 
     public static final int TK_INT = 0; // tipo inteiro
@@ -17,8 +19,15 @@ public class Token {
     public static final int TK_COMENT_VARIOUS_LINES = 14; // comentário de varias linhas
     public static final int TK_FINAL = 99; // marcador final
 
+    public static final String TK_TEXT[] = {
+        "IDENTIFIER","ARITHMETIC"
+    }
+
     private int type;
     private String text;
+
+    private int line;
+    private int column;
 
     public Token(int type, String text) {
         super();
@@ -46,42 +55,58 @@ public class Token {
         this.text = text;
     }
 
+    public int getLine() {
+        return line;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public void setLine(int line) {
+        this.line = line;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
+    }
+
     public String toString() {
         switch (this.type) {
-            case 0:
-                return this.text + " - INTEIRO";
-            case 1:
-                return this.text + " - FLOAT";
-            case 2:
-                return this.text + " - CHAR";
-            case 3:
-                return this.text + " - IDENTIFICADOR";
-            case 4:
-                return this.text + " - OPERADOR RELACIONAL";
-            case 5:
-                return this.text + " - OPERADOR ARITMETICO";
-            case 6:
-                return this.text + " - CARACTERE ESPECIAL";
-            case 7:
-                return this.text + " - PALAVRA RESERVADA";
-            case 8:
-                return this.text + " - IDENTIFICADOR PRIVADO";
-            case 9:
-                return this.text + " - CONDICIONAL IF ELSE";
-            case 10:
-                return this.text + " - LONG";
-            case 11:
-                return this.text + " - POTÊNCIA";
-            case 12:
-                return this.text + " - BREAK";
-            case 13:
-                return this.text + " - COMENTÁRIO DE LINHA";
-            case 14:
-                return this.text + " - COMENTÁRIO DE VÁRIAS LINHAS";
-            case 99:
-                return this.text + " - FINAL DE ARQUIVO";
-            default:
-                return "";
+        case 0:
+            return this.text + " - INTEIRO";
+        case 1:
+            return this.text + " - FLOAT";
+        case 2:
+            return this.text + " - CHAR";
+        case 3:
+            return this.text + " - IDENTIFICADOR";
+        case 4:
+            return this.text + " - OPERADOR RELACIONAL";
+        case 5:
+            return this.text + " - OPERADOR ARITMETICO";
+        case 6:
+            return this.text + " - CARACTERE ESPECIAL";
+        case 7:
+            return this.text + " - PALAVRA RESERVADA";
+        case 8:
+            return this.text + " - IDENTIFICADOR PRIVADO";
+        case 9:
+            return this.text + " - CONDICIONAL IF ELSE";
+        case 10:
+            return this.text + " - LONG";
+        case 11:
+            return this.text + " - POTÊNCIA";
+        case 12:
+            return this.text + " - BREAK";
+        case 13:
+            return this.text + " - COMENTÁRIO DE LINHA";
+        case 14:
+            return this.text + " - COMENTÁRIO DE VÁRIAS LINHAS";
+        case 99:
+            return this.text + " - FINAL DE ARQUIVO";
+        default:
+            return "";
         }
     }
 }

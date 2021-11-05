@@ -1,18 +1,21 @@
+import AnalisadorLexico.Token;
+
 public class Main {
     public static void main(String[] args) {
         try {
             IbiScanner sc = new IbiScanner("C:\\Users\\djalm\\Documents\\GitHub\\Compilador_IBIMIRIM\\src\\input.ibi");
-            Token token = null;
-            do {
-                token = sc.nextToken();
-                if (token != null) {
-                    System.out.println(token);
-                }
-            } while (token != null);
+            IbiParser par = new IbiParser(sc);
+
+            par.E();
             System.out.println("Compilação bem sucedida!");
-        } catch (ibiLexicalException ex) {
+        } 
+        catch (ibiLexicalException ex) {
             System.err.println("Erro Léxico: " + ex.getMessage());
-        } catch (Exception ex) {
+        }
+        catch (ibiSyntaxException ex) {
+            System.out.println("Erro Sintático: " + ex.getMessage());
+        } 
+        catch (Exception ex) {
             System.err.println("Erro Genérico: " + ex.getMessage());
         }
     }
