@@ -1,4 +1,5 @@
-import AnalisadorLexico.Token;
+import AnalisadorLexico.*;
+import AnalisadorSintatico.*;
 
 public class Main {
     public static void main(String[] args) {

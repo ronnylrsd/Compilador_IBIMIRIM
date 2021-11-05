@@ -1,6 +1,6 @@
 package AnalisadorSintatico;
 
-import AnalisadorLexico.Token;
+import AnalisadorLexico.*;
 
 public class IbiParser {
 
@@ -28,13 +28,13 @@ public class IbiParser {
     public void T() {
         token = scanner.nextToken();
         if (token.getType() != Token.TK_IDENTIFIER && token.getType() != Token.TK_INT) {
-            throw new ibiSyntaxException("ID or NUMBER expected!, found" + Token.TK_TEXT[token.getType()] + " (" + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
+            throw new ibiSyntaxException("ID or NUMBER expected!, found " + Token.TK_TEXT[token.getType()] + " (" + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
     }
 
     public void OP() {
         if (token.getType() != Token.TK_ARITHMETIC) {
-            throw new ibiSyntaxException("Operator Expected!, found" + Token.TK_TEXT[token.getType()] + " (" + token.getText() +  ") at Line " + token.getLine() + " and column " + token.getColumn());
+            throw new ibiSyntaxException("Operator Expected!, found " + Token.TK_TEXT[token.getType()] + " (" + token.getText() +  ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
     }
 

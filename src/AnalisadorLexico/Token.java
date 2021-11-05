@@ -17,11 +17,11 @@ public class Token {
     public static final int TK_BREAK = 12; // break
     public static final int TK_COMENT_INLINE = 13; // comentário de linha
     public static final int TK_COMENT_VARIOUS_LINES = 14; // comentário de varias linhas
-    public static final int TK_FINAL = 99; // marcador final
+    public static final int TK_FINAL = 15; // marcador final
 
     public static final String TK_TEXT[] = {
-        "IDENTIFIER","ARITHMETIC"
-    }
+        "INT","FLOAT","CHARACTER","IDENTIFIER", "RELACIONAL", "ARITHMETIC", "SPECIAL", "RESERVED", "PRIVATE", "IF_ELSE", "LONG", "POW", "BREAK", "COMENT_INLINE", "COMENT_VARIOUS_LINES", "FINAL"
+    };
 
     private int type;
     private String text;
@@ -103,7 +103,7 @@ public class Token {
             return this.text + " - COMENTÁRIO DE LINHA";
         case 14:
             return this.text + " - COMENTÁRIO DE VÁRIAS LINHAS";
-        case 99:
+        case 15:
             return this.text + " - FINAL DE ARQUIVO";
         default:
             return "";
