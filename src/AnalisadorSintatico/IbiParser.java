@@ -11,6 +11,13 @@ public class IbiParser {
         this.scanner = scanner;
     }
 
+    public void A() {
+        Al();
+        B();
+        E();
+        C();
+    }
+
     public void E() {
         T();
         El();
@@ -22,6 +29,27 @@ public class IbiParser {
             OP();
             T();
             El();
+        }
+    }
+
+    public void B() {
+        token = scanner.nextToken();
+        if (token.getText().compareTo("=") != 0) {
+            throw new ibiSyntaxException("= expected!, found " + Token.TK_TEXT[token.getType()] + " (" + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
+        }
+    }
+
+    public void C() {
+        token = scanner.nextToken();
+        if (token.getText().compareTo(";") != 0) {
+            throw new ibiSyntaxException("; expected!, found " + Token.TK_TEXT[token.getType()] + " (" + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
+        }
+    }
+
+    public void Al() {
+        token = scanner.nextToken();
+        if (token.getType() != Token.TK_IDENTIFIER) {
+            throw new ibiSyntaxException("ID expected!, found " + Token.TK_TEXT[token.getType()] + " (" + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
     }
 
