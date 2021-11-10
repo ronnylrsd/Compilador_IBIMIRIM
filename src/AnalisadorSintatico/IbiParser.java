@@ -40,6 +40,11 @@ public class IbiParser {
         CE(); //Caracter Especial
         DV(); //Declaração_Variável
         C(); //Comando
+        CE(); //Caracter Especial 
+    }
+
+    public void BV(){//Bloco Vazio
+        CE(); //Caracter Especial
         CE(); //Caracter Especial
     }
 
@@ -52,7 +57,6 @@ public class IbiParser {
         I(); //identificador
         CE(); //caracter_especial
     }
-
 
     public void I(){//Identificador
         token = scanner.nextToken();
