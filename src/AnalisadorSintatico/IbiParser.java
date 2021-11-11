@@ -53,9 +53,15 @@ public class IbiParser {
     }
     //Separar caracteres especiais
     public void DV() {//Declaração_variável
-        T(); //tipo
-        I(); //identificador
-        CE(); //caracter_especial
+        token = scanner.nextToken();
+        if(token.getType() == Token.TK_RESERVED){//TIPO
+            I(); //identificador
+            CE(); //caracter_especial
+            DV();
+        }
+        else{
+            scanner.back();
+        }
     }
 
     public void I(){//Identificador
