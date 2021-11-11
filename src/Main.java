@@ -4,10 +4,10 @@ import AnalisadorSintatico.*;
 public class Main {
     public static void main(String[] args) {
         try {
-            IbiScanner sc = new IbiScanner("C:\\Users\\djalm\\Documents\\GitHub\\Compilador_IBIMIRIM\\src\\input.ibi");
+            IbiScanner sc = new IbiScanner("C:\\Users\\LIVIA\\Documents\\GitHub\\Compilador_IBIMIRIM\\src\\input.ibi");
             IbiParser par = new IbiParser(sc);
 
-            par.E();
+            par.Et();
             System.out.println("Compilação bem sucedida!");
         } 
         catch (ibiLexicalException ex) {

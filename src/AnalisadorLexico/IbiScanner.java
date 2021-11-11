@@ -429,7 +429,7 @@ public class IbiScanner {
         return content[pos++];
     }
 
-    private void back() {
+    public void back() {
         pos--;
     }
 
