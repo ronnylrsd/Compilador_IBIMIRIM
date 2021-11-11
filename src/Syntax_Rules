@@ -1,0 +1,8 @@
+I -> while (<expr_relacional>) <comando>
+
+Vn = I, T, OP_Relacional
+Vt = 
+
+1. I -> T (OP_Relacional) 
+2. T -> while (TK_RESERVED) 
+3. OP_relacional -> == | != | < | > | <= | >=
