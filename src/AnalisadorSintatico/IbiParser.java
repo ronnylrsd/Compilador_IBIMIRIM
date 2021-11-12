@@ -85,16 +85,19 @@ public class IbiParser {
     // IF ELSE
     public void C() {
         token = scanner.nextToken();
-        if (token.getType() == Token.TK_RESERVED) {
-            PA();
+        if (token.getType() == Token.TK_RESERVED && token.getText().compareTo("if") == 0) {
+            PAA();
             ER();
-            PA();
-            scanner.back();
+            PAF();
             C();
             ES();
-        } else if(token.getType() == Token.TK_IDENTIFIER) {
+        } else if (token.getType() == Token.TK_IDENTIFIER) {
+            B();
+            E();
+            P();
+            C();
+        } else {
             scanner.back();
-            A();
         }
     }
 
@@ -107,10 +110,19 @@ public class IbiParser {
         }
     }
 
-    // ( )
-    public void PA() {
+    // (
+    public void PAA() {
         token = scanner.nextToken();
-        if (token.getType() != Token.TK_SPECIAL) {
+        if (token.getType() != Token.TK_SPECIAL && token.getText().compareTo("(") != 0) {
+            throw new ibiSyntaxException("Caracter Special expected!, found " + Token.TK_TEXT[token.getType()] + " ("
+                    + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
+        }
+    }
+
+    // )
+    public void PAF() {
+        token = scanner.nextToken();
+        if (token.getType() != Token.TK_SPECIAL && token.getText().compareTo(")") != 0) {
             throw new ibiSyntaxException("Caracter Special expected!, found " + Token.TK_TEXT[token.getType()] + " ("
                     + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
@@ -119,7 +131,7 @@ public class IbiParser {
     // }
     public void PE() {
         token = scanner.nextToken();
-        if (token.getType() != Token.TK_SPECIAL) {
+        if (token.getType() != Token.TK_SPECIAL && token.getText().compareTo("}") != 0) {
             throw new ibiSyntaxException("Caracter Special expected!, found " + Token.TK_TEXT[token.getType()] + " ("
                     + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
@@ -133,7 +145,7 @@ public class IbiParser {
     // ELSE
     public void ES() {
         token = scanner.nextToken();
-        if (token.getType() == Token.TK_SPECIAL) {
+        if (token.getType() == Token.TK_SPECIAL && token.getText().compareTo("{") == 0) {
             PR();
             C();
             PE();
