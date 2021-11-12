@@ -27,18 +27,19 @@ public class IbiParser {
 
     }
 
-    public void Er() {
-        // T();
-        // token = scanner.nextToken();
-        // operadorRelacional();
+    public void ER() {
+        T();
+        token = scanner.nextToken();
+        operadorRelacional();
         // scanner.back();
-        // T();
+        T();
 
     }
 
     public void El() {
+        T();
         token = scanner.nextToken();
-        if (token.getType() != token.TK_FINAL ) {
+        if (token.getType() != Token.TK_FINAL ) {
             operadorAritmetico();
             T();
             El();
