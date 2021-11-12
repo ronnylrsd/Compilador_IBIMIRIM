@@ -31,8 +31,16 @@ public class IbiParser {
         token = scanner.nextToken();
         if (token.getType() != Token.TK_SPECIAL) {
             OP();
-            T();
-            El();
+            token = scanner.nextToken();
+            if (token.getType() == Token.TK_SPECIAL && token.getText().compareTo("(") == 0) {
+                T();
+                El();
+                PAF();
+            } else {
+                scanner.back();
+                T();
+                El();
+            }
         } else {
             scanner.back();
         }
