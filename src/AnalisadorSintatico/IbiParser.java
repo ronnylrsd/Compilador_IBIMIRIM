@@ -13,33 +13,40 @@ public class IbiParser {
     //Separar o que é INT e o que é MAIN
     //Separar os caracteres especias
     public void P() {//programa
-        T(); //tipo
-        PR(); //palavra_reservada
-        PAA(); //caracter_especial '('
-        PAF(); //caracter_especial ')'
+        TI(); //tipo 'INT'
+        PRM(); //palavra_reservada 'main'
+        PA(); //caracter_especial '('
+        PF(); //caracter_especial ')'
         B(); //bloco
     }
 
-    public void PR() {//Palavra Reservada (main)
+    public void TI() {
         token = scanner.nextToken();
-        if (token.getType() != Token.TK_RESERVED) {
+        if (token.getType() != Token.TK_RESERVED || token.getText().compareTo("int") != 0) {
+            throw new ibiSyntaxException("INT expected!, found " + Token.TK_TEXT[token.getType()] + " (" + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
+        }
+    }
+
+    public void PRM() {//Palavra Reservada (main)
+        token = scanner.nextToken();
+        if (token.getType() != Token.TK_RESERVED || token.getText().compareTo("main") != 0) {
             throw new ibiSyntaxException("MAIN expected!, found " + Token.TK_TEXT[token.getType()] + " (" + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
     }
 
-    public void PAA() {
+    public void PA() {
         token = scanner.nextToken();
-        if (token.getType() != Token.TK_SPECIAL && token.getText().compareTo("(") != 0) {
-            throw new ibiSyntaxException("Caracter Special expected!, found " + Token.TK_TEXT[token.getType()] + " ("
+        if (token.getType() != Token.TK_SPECIAL || token.getText().compareTo("(") != 0) {
+            throw new ibiSyntaxException("Caracter Special '(' expected!, found " + Token.TK_TEXT[token.getType()] + " ("
                     + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
     }
 
     // )
-    public void PAF() {
+    public void PF() {
         token = scanner.nextToken();
-        if (token.getType() != Token.TK_SPECIAL && token.getText().compareTo(")") != 0) {
-            throw new ibiSyntaxException("Caracter Special expected!, found " + Token.TK_TEXT[token.getType()] + " ("
+        if (token.getType() != Token.TK_SPECIAL || token.getText().compareTo(")") != 0) {
+            throw new ibiSyntaxException("Caracter Special ')' expected!, found " + Token.TK_TEXT[token.getType()] + " ("
                     + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
     }
@@ -56,8 +63,8 @@ public class IbiParser {
     // {
     public void CA() {
         token = scanner.nextToken();
-        if (token.getType() != Token.TK_SPECIAL && token.getText().compareTo("{") != 0) {
-            throw new ibiSyntaxException("Caracter Special expected!, found " + Token.TK_TEXT[token.getType()] + " ("
+        if (token.getType() != Token.TK_SPECIAL || token.getText().compareTo("{") != 0) {
+            throw new ibiSyntaxException("Caracter Special '{' expected!, found " + Token.TK_TEXT[token.getType()] + " ("
                     + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
     }
@@ -65,8 +72,8 @@ public class IbiParser {
     // }
     public void CF() {
         token = scanner.nextToken();
-        if (token.getType() != Token.TK_SPECIAL && token.getText().compareTo("}") != 0) {
-            throw new ibiSyntaxException("Caracter Special expected!, found " + Token.TK_TEXT[token.getType()] + " ("
+        if (token.getType() != Token.TK_SPECIAL || token.getText().compareTo("}") != 0) {
+            throw new ibiSyntaxException("Caracter Special '}' expected!, found " + Token.TK_TEXT[token.getType()] + " ("
                     + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
     }
@@ -90,8 +97,8 @@ public class IbiParser {
     // ;
     public void PV() {
         token = scanner.nextToken();
-        if (token.getType() != Token.TK_SPECIAL && token.getText().compareTo(";") != 0) {
-            throw new ibiSyntaxException("Caracter Special expected!, found " + Token.TK_TEXT[token.getType()] + " ("
+        if (token.getType() != Token.TK_SPECIAL || token.getText().compareTo(";") != 0) {
+            throw new ibiSyntaxException("Caracter Special ';' expected!, found " + Token.TK_TEXT[token.getType()] + " ("
                     + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
     }
