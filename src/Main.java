@@ -7,7 +7,7 @@ public class Main {
             IbiScanner sc = new IbiScanner("E:\\Ramon\\Documentos\\GitHub\\Compilador_IBIMIRIM\\src\\input.ibi");
             IbiParser par = new IbiParser(sc);
 
-            par.P();
+            par.DV();
             System.out.println("Compilação bem sucedida!");
         } 
         catch (ibiLexicalException ex) {

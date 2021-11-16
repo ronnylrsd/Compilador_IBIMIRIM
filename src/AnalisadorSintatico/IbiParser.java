@@ -50,9 +50,7 @@ public class IbiParser {
                     + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
     }
-    //Adicionar se for vazio
     //Adicionar mais de uma decl_var e mais de um comando
-    //Separar caracteres especiais
     public void B(){//Bloco
         CA(); //Caracter Especial
         DV(); //Declaração_Variável
@@ -83,14 +81,15 @@ public class IbiParser {
     }
     //Separar caracteres especiais
     public void DV() {//Declaração_variável
+        TIFC();//tipo INT, FLOAT, CHAR
+        I(); //identificador
+        PV(); //caracter_especial
+    }
+
+    public void TIFC(){
         token = scanner.nextToken();
-        if(token.getType() == Token.TK_RESERVED){//TIPO
-            I(); //identificador
-            PV(); //caracter_especial
-            DV();
-        }
-        else{
-            scanner.back();
+        if(token.getType() != Token.TK_RESERVED || (token.getText().compareTo("int") != 0 && token.getText().compareTo("float") != 0 && token.getText().compareTo("char") != 0)){
+            throw new ibiSyntaxException("INT OR FLOAT or CHAR expected!, found " + Token.TK_TEXT[token.getType()] + " (" + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
     }
 
@@ -110,31 +109,5 @@ public class IbiParser {
         }
     }
 
-    public void E() {
-        T();
-        El();
-    }
-
-    public void El() {
-        token = scanner.nextToken();
-        if (token != null) {
-            OP();
-            T();
-            El();
-        }
-    }
-
-    public void T() {
-        token = scanner.nextToken();
-        if (token.getType() != Token.TK_RESERVED) {
-            throw new ibiSyntaxException("INT OR FLOAT or CHAR expected!, found " + Token.TK_TEXT[token.getType()] + " (" + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
-        }
-    }
-
-    public void OP() {
-        if (token.getType() != Token.TK_ARITHMETIC) {
-            throw new ibiSyntaxException("Operator Expected!, found " + Token.TK_TEXT[token.getType()] + " (" + token.getText() +  ") at Line " + token.getLine() + " and column " + token.getColumn());
-        }
-    }
 
 }
