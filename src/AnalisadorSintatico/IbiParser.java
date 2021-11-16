@@ -12,34 +12,34 @@ public class IbiParser {
     }
 
     // ATRIBUICAO
-    public void A() {
-        Al();
-        B();
-        E();
-        P();
-        C();
+    public void atribuicao() {
+        id();
+        atribui();
+        aritmetica();
+        pontoEvirgula();
+        ifElse();
     }
 
     // EXPRESSAO ARITMETICA
-    public void E() {
-        T();
-        El();
+    public void aritmetica() {
+        numAritmetica();
+        aritmeticaLoop();
     }
 
     // EXPRESSAO ARITMETICA LOOP
-    public void El() {
+    public void aritmeticaLoop() {
         token = scanner.nextToken();
         if (token.getType() != Token.TK_SPECIAL) {
-            OP();
+            operadorAritmetico();
             token = scanner.nextToken();
             if (token.getType() == Token.TK_SPECIAL && token.getText().compareTo("(") == 0) {
-                T();
-                El();
-                PAF();
+                numAritmetica();
+                aritmeticaLoop();
+                parenteseFecha();
             } else {
                 scanner.back();
-                T();
-                El();
+                numAritmetica();
+                aritmeticaLoop();
             }
         } else {
             scanner.back();
@@ -47,7 +47,7 @@ public class IbiParser {
     }
 
     // =
-    public void B() {
+    public void atribui() {
         token = scanner.nextToken();
         if (token.getType() != Token.TK_ARITHMETIC) {
             throw new ibiSyntaxException("= expected!, found " + Token.TK_TEXT[token.getType()] + " (" + token.getText()
@@ -56,7 +56,7 @@ public class IbiParser {
     }
 
     // ;
-    public void P() {
+    public void pontoEvirgula() {
         token = scanner.nextToken();
         if (token.getType() != Token.TK_SPECIAL) {
             throw new ibiSyntaxException("; expected!, found " + Token.TK_TEXT[token.getType()] + " (" + token.getText()
@@ -65,7 +65,7 @@ public class IbiParser {
     }
 
     // ID
-    public void Al() {
+    public void id() {
         token = scanner.nextToken();
         if (token.getType() != Token.TK_IDENTIFIER) {
             throw new ibiSyntaxException("ID expected!, found " + Token.TK_TEXT[token.getType()] + " ("
@@ -74,7 +74,7 @@ public class IbiParser {
     }
 
     // NUMEROS EXPRESSAO ARITMETICA
-    public void T() {
+    public void numAritmetica() {
         token = scanner.nextToken();
         if (token.getType() != Token.TK_IDENTIFIER && token.getType() != Token.TK_INT) {
             throw new ibiSyntaxException("ID or NUMBER expected!, found " + Token.TK_TEXT[token.getType()] + " ("
@@ -83,7 +83,7 @@ public class IbiParser {
     }
 
     // OPERADOR ARITMETICO
-    public void OP() {
+    public void operadorAritmetico() {
         if (token.getType() != Token.TK_ARITHMETIC) {
             throw new ibiSyntaxException("Operator Expected!, found " + Token.TK_TEXT[token.getType()] + " ("
                     + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
@@ -91,55 +91,55 @@ public class IbiParser {
     }
 
     // IF ELSE
-    public void C() {
+    public void ifElse() {
         token = scanner.nextToken();
         if (token.getType() == Token.TK_RESERVED && token.getText().compareTo("if") == 0) {
-            PAA();
+            parenteseAbre();
             ER();
-            PAF();
-            C();
+            parenteseFecha();
+            ifElse();
             ES();
         } else if (token.getType() == Token.TK_IDENTIFIER) {
-            B();
-            E();
-            P();
-            C();
+            atribui();
+            aritmetica();
+            pontoEvirgula();
+            ifElse();
         } else {
             scanner.back();
         }
     }
 
-    // PALAVRA RESERVADA
-    public void PR() {
+    // PALAVRA RESERVADA ELSE
+    public void palavraElse() {
         token = scanner.nextToken();
-        if (token.getType() != Token.TK_RESERVED) {
+        if (token.getType() != Token.TK_RESERVED || token.getText().compareTo("else") != 0) {
             throw new ibiSyntaxException("Reserved Word expected!, found " + Token.TK_TEXT[token.getType()] + " ("
                     + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
     }
 
     // (
-    public void PAA() {
+    public void parenteseAbre() {
         token = scanner.nextToken();
-        if (token.getType() != Token.TK_SPECIAL && token.getText().compareTo("(") != 0) {
+        if (token.getType() != Token.TK_SPECIAL || token.getText().compareTo("(") != 0) {
             throw new ibiSyntaxException("Caracter Special expected!, found " + Token.TK_TEXT[token.getType()] + " ("
                     + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
     }
 
     // )
-    public void PAF() {
+    public void parenteseFecha() {
         token = scanner.nextToken();
-        if (token.getType() != Token.TK_SPECIAL && token.getText().compareTo(")") != 0) {
+        if (token.getType() != Token.TK_SPECIAL || token.getText().compareTo(")") != 0) {
             throw new ibiSyntaxException("Caracter Special expected!, found " + Token.TK_TEXT[token.getType()] + " ("
                     + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
     }
 
     // }
-    public void PE() {
+    public void chaveFecha() {
         token = scanner.nextToken();
-        if (token.getType() != Token.TK_SPECIAL && token.getText().compareTo("}") != 0) {
+        if (token.getType() != Token.TK_SPECIAL || token.getText().compareTo("}") != 0) {
             throw new ibiSyntaxException("Caracter Special expected!, found " + Token.TK_TEXT[token.getType()] + " ("
                     + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
@@ -154,9 +154,9 @@ public class IbiParser {
     public void ES() {
         token = scanner.nextToken();
         if (token.getType() == Token.TK_SPECIAL && token.getText().compareTo("{") == 0) {
-            PR();
-            C();
-            PE();
+            palavraElse();
+            ifElse();
+            chaveFecha();
         } else {
             scanner.back();
         }
