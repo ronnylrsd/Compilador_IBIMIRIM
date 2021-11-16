@@ -17,7 +17,7 @@ public class IbiParser {
         atribui();
         aritmetica();
         pontoEvirgula();
-        ifElse();
+        comandoIf();
     }
 
     // EXPRESSAO ARITMETICA
@@ -91,19 +91,19 @@ public class IbiParser {
     }
 
     // IF ELSE
-    public void ifElse() {
+    public void comandoIf() {
         token = scanner.nextToken();
         if (token.getType() == Token.TK_RESERVED && token.getText().compareTo("if") == 0) {
             parenteseAbre();
-            ER();
+            relacional();
             parenteseFecha();
-            ifElse();
-            ES();
+            comandoIf();
+            comandoElse();
         } else if (token.getType() == Token.TK_IDENTIFIER) {
             atribui();
             aritmetica();
             pontoEvirgula();
-            ifElse();
+            comandoIf();
         } else {
             scanner.back();
         }
@@ -146,16 +146,16 @@ public class IbiParser {
     }
 
     // EXPRESSAO RELACIONAL
-    public void ER() {
+    public void relacional() {
 
     }
 
     // ELSE
-    public void ES() {
+    public void comandoElse() {
         token = scanner.nextToken();
         if (token.getType() == Token.TK_SPECIAL && token.getText().compareTo("{") == 0) {
             palavraElse();
-            ifElse();
+            comandoIf();
             chaveFecha();
         } else {
             scanner.back();
