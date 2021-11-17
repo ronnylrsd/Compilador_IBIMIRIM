@@ -11,13 +11,66 @@ public class IbiParser {
         this.scanner = scanner;
     }
 
+    // Programa
+    public void programa() {
+        tipoInteiro(); // tipo 'INT'
+        palavraMain(); // palavra_reservada 'main'
+        parenteseAbre(); // caracter_especial '('
+        parenteseFecha(); // caracter_especial ')'
+        bloco(); // bloco
+    }
+
+    // Tipo Inteiro
+    public void tipoInteiro() {
+        token = scanner.nextToken();
+        if (token.getType() != Token.TK_RESERVED || token.getText().compareTo("int") != 0) {
+            throw new ibiSyntaxException("INT expected!, found " + Token.TK_TEXT[token.getType()] + " (" + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
+        }
+    }
+
+    public void palavraMain() {//Palavra Reservada (main)
+        token = scanner.nextToken();
+        if (token.getType() != Token.TK_RESERVED || token.getText().compareTo("main") != 0) {
+            throw new ibiSyntaxException("MAIN expected!, found " + Token.TK_TEXT[token.getType()] + " (" + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
+        }
+    }
+
+    //Adicionar mais de uma decl_var e mais de um comando
+    public void bloco(){//Bloco
+        chaveAbre(); //Caracter Especial
+        declaracaoVar(); //Declaração_Variável
+        comando(); //Comando
+        chaveFecha(); //Caracter Especial 
+    }
+
+    //Separar caracteres especiais
+    public void declaracaoVar() {//Declaração_variável
+        tipoIFC();//tipo INT, FLOAT, CHAR
+        identificador(); //identificador
+        pontoEvirgula(); //caracter_especial
+    }
+
+    //tipo INT, FLOAT, CHAR
+    public void tipoIFC(){
+        token = scanner.nextToken();
+        if(token.getType() != Token.TK_RESERVED || (token.getText().compareTo("int") != 0 && token.getText().compareTo("float") != 0 && token.getText().compareTo("char") != 0)){
+            throw new ibiSyntaxException("INT OR FLOAT or CHAR expected!, found " + Token.TK_TEXT[token.getType()] + " (" + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
+        }
+    }
+
+    //Identificador
+    public void identificador(){
+        token = scanner.nextToken();
+        if(token.getType() != Token.TK_IDENTIFIER){
+            throw new ibiSyntaxException("IDENTIFIER expected!, found " + Token.TK_TEXT[token.getType()] + " (" + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());  
+        }
+    }
+
     // ATRIBUICAO
     public void atribuicao() {
-        id();
         atribui();
         aritmetica();
         pontoEvirgula();
-        comandoIf();
     }
 
     // EXPRESSAO ARITMETICA
@@ -64,15 +117,6 @@ public class IbiParser {
         }
     }
 
-    // ID
-    public void id() {
-        token = scanner.nextToken();
-        if (token.getType() != Token.TK_IDENTIFIER) {
-            throw new ibiSyntaxException("ID expected!, found " + Token.TK_TEXT[token.getType()] + " ("
-                    + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
-        }
-    }
-
     // NUMEROS EXPRESSAO ARITMETICA
     public void numAritmetica() {
         token = scanner.nextToken();
@@ -90,20 +134,35 @@ public class IbiParser {
         }
     }
 
-    // IF ELSE
-    public void comandoIf() {
+    // // IF ELSE
+    // public void comando() {
+    //     token = scanner.nextToken();
+    //     if (token.getType() != Token.TK_RESERVED || token.getText().compareTo("if") != 0) {
+    //         throw new ibiSyntaxException("Reserved Word expected!, found " + Token.TK_TEXT[token.getType()] + " ("
+    //                 + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
+    //     } else {
+    //         parenteseAbre();
+    //         relacional();
+    //         parenteseFecha();
+    //         comandoLoop();
+    //         comandoElse();
+    //     }
+    // }
+
+    // comandos
+    public void comando() {
         token = scanner.nextToken();
-        if (token.getType() == Token.TK_RESERVED && token.getText().compareTo("if") == 0) {
+        if (token.getType() == Token.TK_RESERVED && token.getText().compareTo("if") == 0) { // IF ELSE
             parenteseAbre();
             relacional();
             parenteseFecha();
-            comandoIf();
+            comando();
             comandoElse();
-        } else if (token.getType() == Token.TK_IDENTIFIER) {
-            atribui();
-            aritmetica();
-            pontoEvirgula();
-            comandoIf();
+        } else if (token.getType() == Token.TK_IDENTIFIER) { // atribuicao
+            atribuicao();
+        } else if(token.getType() == Token.TK_SPECIAL && token.getText().compareTo("{") == 0){
+            scanner.back();
+            bloco();
         } else {
             scanner.back();
         }
@@ -137,6 +196,15 @@ public class IbiParser {
     }
 
     // }
+    public void chaveAbre() {
+        token = scanner.nextToken();
+        if (token.getType() != Token.TK_SPECIAL || token.getText().compareTo("{") != 0) {
+            throw new ibiSyntaxException("Caracter Special expected!, found " + Token.TK_TEXT[token.getType()] + " ("
+                    + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
+        }
+    }
+
+    // }
     public void chaveFecha() {
         token = scanner.nextToken();
         if (token.getType() != Token.TK_SPECIAL || token.getText().compareTo("}") != 0) {
@@ -155,7 +223,7 @@ public class IbiParser {
         token = scanner.nextToken();
         if (token.getType() == Token.TK_SPECIAL && token.getText().compareTo("{") == 0) {
             palavraElse();
-            comandoIf();
+            comando();
             chaveFecha();
         } else {
             scanner.back();
