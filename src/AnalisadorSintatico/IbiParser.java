@@ -50,7 +50,23 @@ public class IbiParser {
         tipoIFC();// tipo INT, FLOAT, CHAR
         identificador(); // identificador
         pontoEvirgula(); // caracter_especial
+        // declaracaoVarLoop(); // Declaração_variável_loop
     }
+
+    // public void declaracaoVarLoop() {
+    //     token = scanner.nextToken();
+    //     System.out.println(token.getText());
+    //     if (token.getType() == Token.TK_RESERVED && (token.getText().compareTo("int") == 0
+    //             || token.getText().compareTo("float") == 0 || token.getText().compareTo("char") == 0)) {
+    //         identificador(); // identificador
+    //         pontoEvirgula(); // caracter_especial
+    //         declaracaoVarLoop(); // Declaração_variável_loop
+    //     } else {
+    //         scanner.back();
+    //         scanner.back();
+    //         scanner.back();
+    //     }
+    // }
 
     // tipo INT, FLOAT, CHAR
     public void tipoIFC() {
@@ -171,7 +187,7 @@ public class IbiParser {
         } else if (token.getType() == Token.TK_SPECIAL && token.getText().compareTo("{") == 0) {
             scanner.back();
             bloco();
-        } else if(token.getType() == Token.TK_RESERVED && token.getText().compareTo("while") == 0) {
+        } else if (token.getType() == Token.TK_RESERVED && token.getText().compareTo("while") == 0) {
             iteracao();
         } else {
             scanner.back();
