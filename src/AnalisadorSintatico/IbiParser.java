@@ -87,7 +87,7 @@ public class IbiParser {
     // EXPRESSAO ARITMETICA LOOP
     public void aritmeticaLoop() {
         token = scanner.nextToken();
-        if (token.getType() != Token.TK_SPECIAL) {
+        if (token.getType() != Token.TK_SPECIAL && token.getType() != Token.TK_RELATIONAL) {
             operadorAritmetico();
             token = scanner.nextToken();
             if (token.getType() == Token.TK_SPECIAL && token.getText().compareTo("(") == 0) {
@@ -171,8 +171,7 @@ public class IbiParser {
         } else if (token.getType() == Token.TK_SPECIAL && token.getText().compareTo("{") == 0) {
             scanner.back();
             bloco();
-        } else if(token.getType() == Token.TK_RESERVED || token.getText().compareTo("while") == 0) {
-            scanner.back();
+        } else if(token.getType() == Token.TK_RESERVED && token.getText().compareTo("while") == 0) {
             iteracao();
         } else {
             scanner.back();
@@ -233,7 +232,6 @@ public class IbiParser {
 
     // OPERADOR RELACIONAL
     public void operadorRelacional() {
-        token = scanner.nextToken();
         if (token.getType() != Token.TK_RELATIONAL) {
             throw new ibiSyntaxException("Operator Relational expected!, found " + Token.TK_TEXT[token.getType()] + " ("
                     + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
@@ -254,7 +252,6 @@ public class IbiParser {
 
     // ITERACAO
     public void iteracao() {
-        palavraWhile();
         parenteseAbre();
         relacional();
         parenteseFecha();
