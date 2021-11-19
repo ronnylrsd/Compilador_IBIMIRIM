@@ -55,3 +55,15 @@ Você pode acessar a javadoc online do projeto através...
 #### Nome: João Pedro B. Rodrigues
 - Matrícula: 202011195-6
 - GitHub: [joaoPedroJPBR](https://github.com/joaoPedroJPBR)
+
+#### Nome: Ronny Lima Ribeiro da Silva
+- Matrícula:
+- GitHub: [ronnylrsd](https://github.com/ronnylrsd)
+
+#### Nome: Vinicius Ramos C. Lobo P. Pessoa
+- Matrícula: 
+- GitHub: [TsuNIIII](https://github.com/TsuNIIII)
+
+#### Nome: Leonardo Figueiredo Ribeiro
+- Matrícula: 202010965-3
+- GitHub: [leonar202010965](https://github.com/leonar202010965)
