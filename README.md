@@ -67,3 +67,7 @@ Você pode acessar a javadoc online do projeto através...
 #### Nome: Leonardo Figueiredo Ribeiro
 - Matrícula: 202010965-3
 - GitHub: [leonar202010965](https://github.com/leonar202010965)
+
+---
+
+Projeto desenvolvido na cadeira de Compiladores no curso de Ciência da computação na UNICAP.
