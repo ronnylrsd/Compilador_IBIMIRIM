@@ -70,4 +70,4 @@ Você pode acessar a javadoc online do projeto através...
 
 ---
 
-Projeto desenvolvido na cadeira de Compiladores no curso de Ciência da computação na UNICAP.
+Projeto desenvolvido na cadeira de Compiladores no curso de Ciência da computação da UNICAP.
