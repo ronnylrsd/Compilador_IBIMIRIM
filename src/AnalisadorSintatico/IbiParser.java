@@ -37,10 +37,12 @@ public class IbiParser {
         }
     }
 
-    // Adicionar mais de uma decl_var e mais de um comando
-    public void bloco() {// Bloco
+    // Bloco
+    public void bloco() {
+        chaveAbre(); // Caracter Especial
         chaveAbre(); // Caracter Especial
         declaracaoVar(); // Declaração_Variável
+        chaveFecha(); // Caracter Especial
         comando(); // Comando
         chaveFecha(); // Caracter Especial
     }
@@ -50,23 +52,20 @@ public class IbiParser {
         tipoIFC();// tipo INT, FLOAT, CHAR
         identificador(); // identificador
         pontoEvirgula(); // caracter_especial
-        // declaracaoVarLoop(); // Declaração_variável_loop
+        declaracaoVarLoop(); // Declaração_variável_loop
     }
 
-    // public void declaracaoVarLoop() {
-    //     token = scanner.nextToken();
-    //     System.out.println(token.getText());
-    //     if (token.getType() == Token.TK_RESERVED && (token.getText().compareTo("int") == 0
-    //             || token.getText().compareTo("float") == 0 || token.getText().compareTo("char") == 0)) {
-    //         identificador(); // identificador
-    //         pontoEvirgula(); // caracter_especial
-    //         declaracaoVarLoop(); // Declaração_variável_loop
-    //     } else {
-    //         scanner.back();
-    //         scanner.back();
-    //         scanner.back();
-    //     }
-    // }
+    public void declaracaoVarLoop() {
+        token = scanner.nextToken();
+        if (token.getType() == Token.TK_RESERVED && (token.getText().compareTo("int") == 0
+                || token.getText().compareTo("float") == 0 || token.getText().compareTo("char") == 0)) {
+            identificador(); // identificador
+            pontoEvirgula(); // caracter_especial
+            declaracaoVarLoop(); // Declaração_variável_loop
+        } else {
+            scanner.back();
+        }
+    }
 
     // tipo INT, FLOAT, CHAR
     public void tipoIFC() {
@@ -198,7 +197,7 @@ public class IbiParser {
     public void palavraElse() {
         token = scanner.nextToken();
         if (token.getType() != Token.TK_RESERVED || token.getText().compareTo("else") != 0) {
-            throw new ibiSyntaxException("Reserved Word expected!, found " + Token.TK_TEXT[token.getType()] + " ("
+            throw new ibiSyntaxException("ELSE expected!, found " + Token.TK_TEXT[token.getType()] + " ("
                     + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
     }
@@ -274,13 +273,16 @@ public class IbiParser {
         comando();
     }
 
-    // WHILE
-    public void palavraWhile() {
-        token = scanner.nextToken();
-        if (token.getType() != Token.TK_RESERVED || token.getText().compareTo("while") != 0) {
-            throw new ibiSyntaxException("Reserved Word expected!, found " + Token.TK_TEXT[token.getType()] + " ("
-                    + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
-        }
-    }
+    // // WHILE
+    // public void palavraWhile() {
+    // token = scanner.nextToken();
+    // if (token.getType() != Token.TK_RESERVED ||
+    // token.getText().compareTo("while") != 0) {
+    // throw new ibiSyntaxException("Reserved Word expected!, found " +
+    // Token.TK_TEXT[token.getType()] + " ("
+    // + token.getText() + ") at Line " + token.getLine() + " and column " +
+    // token.getColumn());
+    // }
+    // }
 
 }
