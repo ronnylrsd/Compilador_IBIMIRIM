@@ -38,6 +38,8 @@ Você pode acessar a javadoc online do projeto através...
 - Entre no `src/main.java`
 - Clique no Play para executar
 
+Obs.: Você também pode alterar o `input.ibi` para testar possíveis combinações em nosso compilador.
+
 ## 👨‍👦‍👦 COLABORADORES
 
 #### Nome: Djalma Henrique Silva Lima
