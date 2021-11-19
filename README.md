@@ -3,8 +3,8 @@
 <h3 align="center">O primeiro compilador de Ibimirim !</h3>
 
 <p align="center">
-  <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+<a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-como-executar">Como executar</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-colaboradores">Colaboradores</a>
 </p>
@@ -15,16 +15,16 @@
 
 <br>
 
+## 💻 Projeto
+
+O Compilador IBIMIRIM é o primeiro compilador a chegar à essa maravilhosa cidade do interior de Pernambuco! 
+Com a nossa tecnologia, os futuros programadores da cidade poderão aprender a programar facilmente com sua linguagem local.
+
 ## ✨ Tecnologias
 
 Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 - [Java](https://www.oracle.com/java/)
-
-## 💻 Projeto
-
-O Compilador IBIMIRIM é o primeiro compilador a chegar à essa maravilhosa cidade do interior de Pernambuco! 
-Com a nossa tecnologia, os futuros programadores da cidade poderão aprender a programar facilmente com sua linguagem local.
 
 ## 🚀 Como executar
 
