@@ -32,7 +32,11 @@ Você pode acessar a javadoc online do projeto através...
 
 ## 🚀 Como executar
 
-- ...
+- Instale a JDK do Java
+- Clone o repositório
+- Abra o projeto de preferência com o VSCODE
+- Entre no `src/main.java`
+- Clique no Play para executar
 
 ## 👨‍👦‍👦 COLABORADORES
 
