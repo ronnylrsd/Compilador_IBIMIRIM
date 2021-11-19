@@ -59,7 +59,7 @@ Obs.: Você também pode alterar o `input.ibi` para testar possíveis combinaç�
 - GitHub: [joaoPedroJPBR](https://github.com/joaoPedroJPBR)
 
 #### Nome: Ronny Lima Ribeiro da Silva
-- Matrícula:
+- Matrícula: 202011101-6
 - GitHub: [ronnylrsd](https://github.com/ronnylrsd)
 
 #### Nome: Vinicius Ramos C. Lobo P. Pessoa
