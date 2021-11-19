@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-javadoc">Javadoc</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-como-executar">Como executar</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-colaboradores">Colaboradores</a>
 </p>
@@ -25,10 +25,6 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 O Compilador IBIMIRIM é o primeiro compilador a chegar à essa maravilhosa cidade do interior de Pernambuco! 
 Com a nossa tecnologia, os futuros programadores da cidade poderão aprender a programar facilmente com sua linguagem local.
-
-## 📚 Javadoc
-
-Você pode acessar a javadoc online do projeto através...
 
 ## 🚀 Como executar
 
