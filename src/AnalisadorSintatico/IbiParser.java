@@ -1,14 +1,26 @@
 package AnalisadorSintatico;
 
 import AnalisadorLexico.*;
+import AnalisadorSemantico.Semantica;
+import AnalisadorSemantico.ibiSemanticException;
 
 public class IbiParser {
 
     private IbiScanner scanner;
     private Token token; // Token atual
+    private Semantica[] semantica;
+    private int contadorSemantica;
+    private int contadorEscopo;
+    private boolean[] isInt;
+    private int contadorAritmetico;
 
     public IbiParser(IbiScanner scanner) {
         this.scanner = scanner;
+        semantica = new Semantica[100];
+        contadorSemantica = 0;
+        contadorEscopo = 0;
+        isInt = new boolean[100];
+        contadorAritmetico = 0;
     }
 
     // Programa
@@ -40,31 +52,48 @@ public class IbiParser {
     // Bloco
     public void bloco() {
         chaveAbre(); // Caracter Especial
+        contadorEscopo++; // abre escopo
         chaveAbre(); // Caracter Especial
         declaracaoVar(); // Declaração_Variável
         chaveFecha(); // Caracter Especial
         comando(); // Comando
         chaveFecha(); // Caracter Especial
+        contadorEscopo--; // fecha escopo
     }
 
     // Separar caracteres especiais
     public void declaracaoVar() {// Declaração_variável
+        semantica[contadorSemantica] = new Semantica();
         tipoIFC();// tipo INT, FLOAT, CHAR
         identificador(); // identificador
         pontoEvirgula(); // caracter_especial
+        semantica[contadorSemantica].setEscopo(contadorEscopo); //setando escopo da variavel
+        contadorSemantica++;
         declaracaoVarLoop(); // Declaração_variável_loop
     }
 
     public void declaracaoVarLoop() {
         token = scanner.nextToken();
-        if (token.getType() == Token.TK_RESERVED && (token.getText().compareTo("int") == 0
-                || token.getText().compareTo("float") == 0 || token.getText().compareTo("char") == 0)) {
+        if (token.getType() == Token.TK_RESERVED && (token.getText().compareTo("int") == 0 || token.getText().compareTo("float") == 0 || token.getText().compareTo("char") == 0)) {
+            semantica[contadorSemantica].setTipo(token.getText()); //setando tipo da variavel
             identificador(); // identificador
             pontoEvirgula(); // caracter_especial
+            semantica[contadorSemantica].setEscopo(contadorEscopo); //setando escopo da variavel
+            contadorSemantica++;
             declaracaoVarLoop(); // Declaração_variável_loop
         } else {
             scanner.back();
         }
+    }
+
+    // verifica se a variavel já existe (semantico)
+    private boolean isExists(String nome){
+        for(int i = 0; i < semantica.length; i++){
+            if(semantica[i].getNome().equals(nome) && semantica[i].getEscopo() == contadorEscopo){
+                return true;
+            }
+        }
+        return false;
     }
 
     // tipo INT, FLOAT, CHAR
@@ -75,6 +104,7 @@ public class IbiParser {
             throw new ibiSyntaxException("INT OR FLOAT or CHAR expected!, found " + Token.TK_TEXT[token.getType()]
                     + " (" + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
+        semantica[contadorSemantica].setTipo(token.getText()); //setando tipo da variavel
     }
 
     // Identificador
@@ -84,6 +114,11 @@ public class IbiParser {
             throw new ibiSyntaxException("IDENTIFIER expected!, found " + Token.TK_TEXT[token.getType()] + " ("
                     + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
+
+        if(isExists(token.getText())){
+            throw new ibiSemanticException("Variable " + token.getText() + " already exists.");
+        }
+        semantica[contadorSemantica].setNome(token.getText());
     }
 
     // ATRIBUICAO
@@ -97,6 +132,7 @@ public class IbiParser {
     public void aritmetica() {
         numAritmetica();
         aritmeticaLoop();
+        verificaAritmetica();
     }
 
     // EXPRESSAO ARITMETICA LOOP
@@ -117,6 +153,16 @@ public class IbiParser {
         } else {
             scanner.back();
         }
+    }
+
+    // verifica se o tipo é compativel (semantica)
+    public void verificaAritmetica() {
+        for (int i = 1; i < contadorAritmetico; i++) {
+            if(isInt[i - 1] != isInt[i]){ // se os tipos forem diferentes lanca o erro
+                throw new ibiSemanticException("Variable type " + token.getText() + " is not compatible.");
+            }
+        }
+        contadorAritmetico = 0;
     }
 
     // =
@@ -140,9 +186,18 @@ public class IbiParser {
     // NUMEROS EXPRESSAO ARITMETICA
     public void numAritmetica() {
         token = scanner.nextToken();
-        if (token.getType() != Token.TK_IDENTIFIER && token.getType() != Token.TK_INT) {
+        if (token.getType() != Token.TK_IDENTIFIER && token.getType() != Token.TK_INT && token.getType() != Token.TK_FLOAT) {
             throw new ibiSyntaxException("ID or NUMBER expected!, found " + Token.TK_TEXT[token.getType()] + " ("
                     + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
+        }
+
+        // salvando o tipo do token: INT ou FLOAT
+        if(token.getType() == Token.TK_INT) {
+            isInt[contadorAritmetico] = true;
+            contadorAritmetico++;
+        } else {
+            isInt[contadorAritmetico] = false;
+            contadorAritmetico++;
         }
     }
 
@@ -154,24 +209,6 @@ public class IbiParser {
         }
     }
 
-    // // IF ELSE
-    // public void comando() {
-    // token = scanner.nextToken();
-    // if (token.getType() != Token.TK_RESERVED || token.getText().compareTo("if")
-    // != 0) {
-    // throw new ibiSyntaxException("Reserved Word expected!, found " +
-    // Token.TK_TEXT[token.getType()] + " ("
-    // + token.getText() + ") at Line " + token.getLine() + " and column " +
-    // token.getColumn());
-    // } else {
-    // parenteseAbre();
-    // relacional();
-    // parenteseFecha();
-    // comandoLoop();
-    // comandoElse();
-    // }
-    // }
-
     // comandos
     public void comando() {
         token = scanner.nextToken();
@@ -182,6 +219,10 @@ public class IbiParser {
             comando();
             comandoElse();
         } else if (token.getType() == Token.TK_IDENTIFIER) { // atribuicao
+            if(!isExists(token.getText())) { // se a variavel nao existir lanca o erro
+                throw new ibiSemanticException("Variable " + token.getText() + " doesn't exists.");
+            }
+            verificaAtribuicao(token.getText());
             atribuicao();
         } else if (token.getType() == Token.TK_SPECIAL && token.getText().compareTo("{") == 0) {
             scanner.back();
@@ -190,6 +231,17 @@ public class IbiParser {
             iteracao();
         } else {
             scanner.back();
+        }
+    }
+
+    // verifica se o tipo da variavel é compativel com o tipo da atribuicao
+    public void verificaAtribuicao(String nome) {
+        for(int i = 0; i < semantica.length; i++){
+            if(semantica[i].getNome().equals(nome) && semantica[i].getEscopo() == contadorEscopo){
+                if(semantica[i].getTipo().equals("char")) {
+                    throw new ibiSemanticException("Variable type " + token.getText() + " is not compatible.");
+                }
+            }
         }
     }
 
@@ -272,17 +324,4 @@ public class IbiParser {
         parenteseFecha();
         comando();
     }
-
-    // // WHILE
-    // public void palavraWhile() {
-    // token = scanner.nextToken();
-    // if (token.getType() != Token.TK_RESERVED ||
-    // token.getText().compareTo("while") != 0) {
-    // throw new ibiSyntaxException("Reserved Word expected!, found " +
-    // Token.TK_TEXT[token.getType()] + " ("
-    // + token.getText() + ") at Line " + token.getLine() + " and column " +
-    // token.getColumn());
-    // }
-    // }
-
 }
