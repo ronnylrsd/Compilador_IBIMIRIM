@@ -4,6 +4,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import javax.swing.event.SwingPropertyChangeSupport;
+import javax.swing.plaf.synth.SynthSeparatorUI;
+
 public class IbiScanner {
 
     private char[] content;

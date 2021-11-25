@@ -1,4 +1,5 @@
 import AnalisadorLexico.*;
+import AnalisadorSemantico.ibiSemanticException;
 import AnalisadorSintatico.*;
 
 public class Main {
@@ -9,14 +10,13 @@ public class Main {
 
             par.programa();
             System.out.println("Compilação bem sucedida!");
-        } 
-        catch (ibiLexicalException ex) {
+        } catch (ibiLexicalException ex) {
             System.err.println("Erro Léxico: " + ex.getMessage());
-        }
-        catch (ibiSyntaxException ex) {
+        } catch (ibiSyntaxException ex) {
             System.out.println("Erro Sintático: " + ex.getMessage());
-        } 
-        catch (Exception ex) {
+        } catch (ibiSemanticException ex) {
+            System.out.println("Erro Semântico: " + ex.getMessage());
+        } catch (Exception ex) {
             System.err.println("Erro Genérico: " + ex.getMessage());
         }
     }
