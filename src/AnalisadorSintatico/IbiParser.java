@@ -13,6 +13,7 @@ public class IbiParser {
     private int contadorEscopo;
     private boolean[] isInt;
     private int contadorAritmetico;
+    private String varAtribui;
 
     public IbiParser(IbiScanner scanner) {
         this.scanner = scanner;
@@ -21,6 +22,7 @@ public class IbiParser {
         contadorEscopo = 0;
         isInt = new boolean[100];
         contadorAritmetico = 0;
+        varAtribui = null;
     }
 
     // Programa
@@ -175,7 +177,27 @@ public class IbiParser {
                 throw new ibiSemanticException("Variable type is not supported for arithmetic expression.");
             }
         }
+
+        if(varAtribui != null) {
+            for(int i = 0; i < contadorSemantica; i++) {
+                if(semantica[i].getNome().compareTo(varAtribui) == 0 && semantica[i].getEscopo() == contadorEscopo) {
+                    varAtribui = semantica[i].getTipo();
+                }
+            }
+            for (int i = 1; i < contadorAritmetico; i++) {
+                if(varAtribui.compareTo("int") == 0) {
+                    if(isInt[i] == false) {
+                        throw new ibiSemanticException("Variable type int is not supported for arithmetic expression float.");
+                    }
+                } else {
+                    if(isInt[i] == true) {
+                        throw new ibiSemanticException("Variable type float is not supported for arithmetic expression int.");
+                    }
+                }
+            }
+        }
         contadorAritmetico = 0;
+        varAtribui = null;
     }
 
     // =
@@ -237,6 +259,7 @@ public class IbiParser {
                 throw new ibiSemanticException("Variable " + token.getText() + " doesn't exists.");
             }
             verificaAtribuicao(token.getText());
+            varAtribui = token.getText();
             atribuicao();
         } else if (token.getType() == Token.TK_SPECIAL && token.getText().compareTo("{") == 0) {
             scanner.back();
