@@ -124,7 +124,7 @@ public class IbiParser {
         if (isExists(token.getText())) {
             throw new ibiSemanticException("Variable " + token.getText() + " already exists.");
         }
-        semantica[contadorSemantica].setNome(token.getText());
+        semantica[contadorSemantica].setNome(token.getText()); // setando nome da variavel
     }
 
     // ATRIBUICAO
@@ -221,8 +221,7 @@ public class IbiParser {
     // NUMEROS EXPRESSAO ARITMETICA
     public void numAritmetica() {
         token = scanner.nextToken();
-        if (token.getType() != Token.TK_IDENTIFIER && token.getType() != Token.TK_INT
-                && token.getType() != Token.TK_FLOAT) {
+        if (token.getType() != Token.TK_INT && token.getType() != Token.TK_FLOAT) {
             throw new ibiSyntaxException("ID or NUMBER expected!, found " + Token.TK_TEXT[token.getType()] + " ("
                     + token.getText() + ") at Line " + token.getLine() + " and column " + token.getColumn());
         }
@@ -276,7 +275,7 @@ public class IbiParser {
         for (int i = 0; i < contadorSemantica; i++) {
             if (semantica[i].getNome().compareTo(nome) == 0 && semantica[i].getEscopo() == contadorEscopo) {
                 if (semantica[i].getTipo().compareTo("char") == 0) {
-                    throw new ibiSemanticException("Variable type " + token.getText() + " is not compatible.");
+                    throw new ibiSemanticException("Variable type char " + token.getText() + " is not compatible.");
                 }
             }
         }
